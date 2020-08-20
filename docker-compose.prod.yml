@@ -4,7 +4,7 @@ services:
   server:
     build:
        context: ./backend
-    command: gunicorn main:app --bind 0.0.0.0:5000 -w 4 -k uvicorn.workers.UvicornWorker
+    command: gunicorn src.app.main:app --bind 0.0.0.0:5000 -w 4 -k uvicorn.workers.UvicornWorker
     expose:
       - 5000
     labels:
