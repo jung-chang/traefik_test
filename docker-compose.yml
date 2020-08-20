@@ -1,10 +1,10 @@
 version: '3.8'
 
 services:
-  web:
+  server:
     build:
-       context: ./services/api
-    command: gunicorn main:app --bind 0.0.0.0:5000 -w 4 -k uvicorn.workers.UvicornWorker
+       context: ./backend
+    command: gunicorn src.app.main:app --bind 0.0.0.0:5000 -w 4 -k uvicorn.workers.UvicornWorker
     expose:
       - 5000
     labels:
@@ -18,4 +18,4 @@ services:
       - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "$PWD/services/traefik/traefik.dev.toml:/etc/traefik/traefik.toml"
+      - "$PWD/traefik.dev.toml:/etc/traefik/traefik.toml"
