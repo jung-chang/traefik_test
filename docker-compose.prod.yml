@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  web:
+  server:
     build:
-       context: ./services/api
+       context: ./backend
     command: gunicorn main:app --bind 0.0.0.0:5000 -w 4 -k uvicorn.workers.UvicornWorker
     expose:
       - 5000
