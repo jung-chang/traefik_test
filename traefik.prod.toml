@@ -1,14 +1,17 @@
 [entryPoints]
-  [entryPoints.client]
+  [entryPoints.web]
     address = ":80"
-  [entryPoints.client.http]
-    [entryPoints.client.http.redirections]
-      [entryPoints.client.http.redirections.entryPoint]
-        to = "clientsecure"
+  [entryPoints.web.http]
+    [entryPoints.web.http.redirections]
+      [entryPoints.web.http.redirections.entryPoint]
+        to = "websecure"
         scheme = "https"
 
-  [entryPoints.clientsecure]
+  [entryPoints.websecure]
     address = ":443"
+
+[api]
+insecure = true
 
 [accessLog]
 

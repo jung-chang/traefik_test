@@ -9,7 +9,7 @@ services:
       - 5000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.server.rule=Host(`localhost`)"
+      - "traefik.http.routers.server.rule=Host(`test.localhost.com`)"
       - "traefik.http.routers.server.entrypoints=server"
 
   client:
@@ -28,7 +28,7 @@ services:
       - 3000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`localhost`)"
+      - "traefik.http.routers.client.rule=Host(`test.localhost.com`)"
       - "traefik.http.routers.client.entrypoints=client"
 
   traefik:
