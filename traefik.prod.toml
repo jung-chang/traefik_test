@@ -1,13 +1,13 @@
 [entryPoints]
-  [entryPoints.server]
+  [entryPoints.client]
     address = ":80"
-  [entryPoints.server.http]
-    [entryPoints.server.http.redirections]
-      [entryPoints.server.http.redirections.entryPoint]
-        to = "serversecure"
+  [entryPoints.client.http]
+    [entryPoints.client.http.redirections]
+      [entryPoints.client.http.redirections.entryPoint]
+        to = "clientsecure"
         scheme = "https"
 
-  [entryPoints.serversecure]
+  [entryPoints.clientsecure]
     address = ":443"
 
 [accessLog]
@@ -20,4 +20,4 @@
   email = "kevinchang@live.ca"
   storage= "acme.json"
   [certificatesResolvers.letsencrypt.acme.httpChallenge]
-    entryPoint = "server"
+    entryPoint = "client"

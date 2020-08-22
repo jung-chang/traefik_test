@@ -9,13 +9,34 @@ services:
       - 5000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.fastapi.rule=Host(`localhost`)"
+      - "traefik.http.routers.server.rule=Host(`localhost`)"
+      - "traefik.http.routers.server.entrypoints=server"
+
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: npm run start -- -p 3000
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    expose:
+      - 3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.client.rule=Host(`localhost`)"
+      - "traefik.http.routers.client.entrypoints=client"
 
   traefik:
     image: traefik:v2.2
     ports:
       - "80:80"
       - "8080:8080"
+      - "5000:5000"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "$PWD/traefik.dev.toml:/etc/traefik/traefik.toml"
