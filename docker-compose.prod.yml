@@ -9,8 +9,10 @@ services:
       - 5000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.server.entrypoints=api"
-      - "traefik.http.routers.server.rule=Host(`api.mewslet.com`)"
+      - "traefik.http.routers.server.entrypoints=websecure"
+      - "traefik.http.routers.server.rule=Host(`api.localhost.com`)"
+      - "traefik.http.routers.server.tls=true"
+      - "traefik.http.routers.server.tls.certresolver=letsencrypt"
 
   client:
     build:
@@ -28,7 +30,7 @@ services:
       - 3000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`mewslet.com`)"
+      - "traefik.http.routers.client.rule=Host(`test.localhost.com`)"
       - "traefik.http.routers.client.entrypoints=websecure"
       - "traefik.http.routers.client.tls=true"
       - "traefik.http.routers.client.tls.certresolver=letsencrypt"
@@ -36,7 +38,6 @@ services:
   traefik:
     image: traefik:v2.2
     ports:
-      - "5000:5000"
       - "8080:8080"
       - "80:80"
       - "443:443"

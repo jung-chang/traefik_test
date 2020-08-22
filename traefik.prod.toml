@@ -9,9 +9,6 @@
   [entryPoints.websecure]
     address = ":443"
 
-  [entryPoints.api]
-    address = ":5000"
-
 [api]
 insecure = true
 
@@ -25,4 +22,4 @@ insecure = true
   email = "kevinchang@live.ca"
   storage= "acme.json"
   [certificatesResolvers.letsencrypt.acme.httpChallenge]
-    entryPoint = "client"
+    entryPoint = "web"
