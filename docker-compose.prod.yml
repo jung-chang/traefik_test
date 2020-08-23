@@ -4,13 +4,15 @@ services:
   server:
     build:
        context: ./backend
+       dockerfile: Dockerfile
     command: gunicorn src.app.main:app --bind 0.0.0.0:5000 -w 4 -k uvicorn.workers.UvicornWorker
     expose:
       - 5000
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.server.rule=Host(`api.mewslet.com`)"
+      # - "traefik.http.routers.server.rule=Host(`api.localhost.com`)"
       - "traefik.http.routers.server.entrypoints=websecure"
-      - "traefik.http.routers.server.rule=Host(`api.localhost.com`)"
       - "traefik.http.routers.server.tls=true"
       - "traefik.http.routers.server.tls.certresolver=letsencrypt"
 
@@ -23,14 +25,13 @@ services:
       - ./frontend:/usr/src/app
       - /usr/src/app/node_modules
       - /usr/src/app/.next
-    environment:
-      - NODE_ENV=development
     restart: unless-stopped
     expose:
       - 3000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.client.rule=Host(`test.localhost.com`)"
+      - "traefik.http.routers.client.rule=Host(`mewslet.com`, `www.mewslet.com`)"
+      # - "traefik.http.routers.client.rule=Host(`test.localhost.com`)"
       - "traefik.http.routers.client.entrypoints=websecure"
       - "traefik.http.routers.client.tls=true"
       - "traefik.http.routers.client.tls.certresolver=letsencrypt"
