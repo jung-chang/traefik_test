@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-const SERVER = "http://api.localhost.com";
-// const SERVER = "https://api.mewslet.com";
+// const SERVER = "http://api.localhost.com";
+const SERVER = "https://api.mewslet.com";
 
 
 console.log(`NODE_ENV: ${process.env.NODE_ENV}, SERVER: ${SERVER}`);
@@ -16,9 +16,10 @@ const About = () => {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
         }
-    }).then((response: any) => {
-        console.log(response);
-        setData(JSON.stringify(response))
+    }).then(async (response: any) => {
+        const data = await response.json();
+        console.log(data);
+        setData(JSON.stringify(data));
     });
 
     return <div>Traefik Test: {data}</div>
