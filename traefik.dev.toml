@@ -1,8 +1,6 @@
 [entryPoints]
-  [entryPoints.client]
+  [entryPoints.web]
     address = ":80"
-  [entryPoints.server]
-    address = ":5000"
 
 [api]
 insecure = true

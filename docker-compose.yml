@@ -4,13 +4,17 @@ services:
   server:
     build:
        context: ./backend
-    command: gunicorn src.app.main:app --bind 0.0.0.0:5000 -w 4 -k uvicorn.workers.UvicornWorker
+    command: gunicorn src.app.main:app --bind 0.0.0.0:5000 -w 1 -k uvicorn.workers.UvicornWorker
+    extra_hosts:
+      - 'host:${HOST_IP?Variable not set}' # Allow docker to talk to local postgres
+    environment:
+      - DATABASE_URL=postgresql://newsletter:newsletter@${HOST_IP?Variable not set}:5432/newsletter_db_dev
     expose:
       - 5000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.server.rule=Host(`test.localhost.com`)"
-      - "traefik.http.routers.server.entrypoints=server"
+      - "traefik.http.routers.server.rule=Host(`api.localhost.com`)"
+      - "traefik.http.routers.server.entrypoints=web"
 
   client:
     build:
@@ -29,14 +33,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.client.rule=Host(`test.localhost.com`)"
-      - "traefik.http.routers.client.entrypoints=client"
+      - "traefik.http.routers.client.entrypoints=web"
 
   traefik:
     image: traefik:v2.2
     ports:
       - "80:80"
       - "8080:8080"
-      - "5000:5000"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "$PWD/traefik.dev.toml:/etc/traefik/traefik.toml"
