@@ -6,6 +6,10 @@ services:
        context: ./backend
        dockerfile: Dockerfile
     command: gunicorn src.app.main:app --bind 0.0.0.0:5000 -w 4 -k uvicorn.workers.UvicornWorker
+    extra_hosts:
+      - 'host:${HOST_IP?Variable not set}' # Allow docker to talk to local postgres
+    environment:
+      - DATABASE_URL=postgresql://newsletter:newsletter@${HOST_IP?Variable not set}:5432/newsletter_db_dev
     expose:
       - 5000
     labels:
