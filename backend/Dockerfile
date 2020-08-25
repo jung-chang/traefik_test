@@ -14,3 +14,6 @@ RUN pip install -r requirements.txt
 
 # Add app
 COPY . $WORKDIR/
+
+# Comment out, use command in docker-compose
+# CMD ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "5000"]

@@ -9,7 +9,7 @@ services:
     extra_hosts:
       - 'host:${HOST_IP?Variable not set}' # Allow docker to talk to local postgres
     environment:
-      - DATABASE_URL=postgresql://newsletter:newsletter@${HOST_IP?Variable not set}:5432/newsletter_db_dev
+      - DATABASE_URL=postgresql://newsletter:newsletter@host:5432/newsletter_db_dev
     ports:
       - 5000:5000
     expose:
